@@ -8,8 +8,8 @@ type Token struct {
 }
 
 const (
-	ILLEGAL = "ILLEGAL"
-	EOF = "EOF"
+	ILLEGAL = "ILLEGAL" // signifies a token/character we don’t know about
+	EOF = "EOF" // stands for “end of file”
 
 	// Identifiers + literals
 	IDENT = "IDENT" // add, foo-bar, x, y, ...

@@ -53,12 +53,12 @@ func (l *Lexer) NextToken() token.Token {
 	default:
 		if isLetter(l.ch) {
 			t.Literal = l.readIdentifier()
+			t.Type = token.LookupIdent(t.Literal)
 			return t
 		} else {
 			t = newToken(token.ILLEGAL, l.ch)
 		}
 	}
-
 
 	l.readChar()
 

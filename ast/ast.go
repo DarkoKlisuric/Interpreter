@@ -25,8 +25,8 @@ type Program struct {
 
 type LetStatement struct {
 	Token token.Token // the token.LET token
-	Name *Identifier // Name hold identifier of the binding
-	Value Expression // Value for the expression that produces the value
+	Name  *Identifier // Name hold identifier of the binding
+	Value Expression  // Value for the expression that produces the value
 }
 
 type Identifier struct {
@@ -34,11 +34,11 @@ type Identifier struct {
 	Value string
 }
 
-func (ls *LetStatement) statementNode() {}
+func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
-func (i *Identifier) expressionNode() {}
-func (i *Identifier) TokenLiteral() string  { return i.Token.Literal }
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
@@ -47,4 +47,3 @@ func (p *Program) TokenLiteral() string {
 		return ""
 	}
 }
-

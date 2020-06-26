@@ -34,6 +34,11 @@ type ReturnStatement struct {
 	ReturnValue Expression
 }
 
+type ExpressionStatement struct {
+	Token      token.Token // the first token of the expression
+	Expression Expression
+}
+
 type Identifier struct {
 	Token token.Token // the token.IDENT token
 	Value string
@@ -42,8 +47,14 @@ type Identifier struct {
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
-func (i *Identifier) expressionNode()      {}
-func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+
+func (es *ExpressionStatement) statementNode()       {}
+func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
+func (i *Identifier) expressionNode()                {}
+func (i *Identifier) TokenLiteral() string           { return i.Token.Literal }
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
@@ -52,6 +63,3 @@ func (p *Program) TokenLiteral() string {
 		return ""
 	}
 }
-
-func (rs *ReturnStatement) statementNode()       {}
-func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }

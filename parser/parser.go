@@ -62,7 +62,7 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.LET:
 		return p.parseLetStatement()
 	case token.RETURN:
-		return p.parseRturnStatement()
+		return p.parseReturnStatement()
 	default:
 		return nil
 	}

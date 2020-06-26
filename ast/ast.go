@@ -1,12 +1,16 @@
 package ast
 
-import "github.com/DarkoKlisuric/interpreter/token"
+import (
+	"bytes"
+	"github.com/DarkoKlisuric/interpreter/token"
+)
 
 type Node interface {
 	// TokenLiteral() method that returns
 	// the literal value of the token it’s associated with
 	// TokenLiteral() will be used only for debugging and testing
 	TokenLiteral() string
+	String() string
 }
 
 type Statement interface {
@@ -53,8 +57,8 @@ func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 func (es *ExpressionStatement) statementNode()       {}
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 
-func (i *Identifier) expressionNode()                {}
-func (i *Identifier) TokenLiteral() string           { return i.Token.Literal }
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
@@ -62,4 +66,14 @@ func (p *Program) TokenLiteral() string {
 	} else {
 		return ""
 	}
+}
+
+func (p *Program) String() string {
+	var out bytes.Buffer
+
+	for _, s := range p.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
 }

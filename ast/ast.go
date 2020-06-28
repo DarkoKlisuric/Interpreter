@@ -27,6 +27,11 @@ type Program struct {
 	Statements []Statement
 }
 
+type Identifier struct {
+	Token token.Token // the token.IDENT token
+	Value string
+}
+
 type LetStatement struct {
 	Token token.Token // the token.LET token
 	Name  *Identifier // Name hold identifier of the binding
@@ -43,10 +48,14 @@ type ExpressionStatement struct {
 	Expression Expression
 }
 
-type Identifier struct {
-	Token token.Token // the token.IDENT token
-	Value string
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
 }
+
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+func (i *Identifier) String() string       { return i.Value }
 
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
@@ -57,9 +66,9 @@ func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 func (es *ExpressionStatement) statementNode()       {}
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 
-func (i *Identifier) expressionNode()      {}
-func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
-func (i *Identifier) String() string       { return i.Value }
+func (il *IntegerLiteral) expressionNode() {}
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+func (il *IntegerLiteral) String() string { return il.Token.Literal }
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {

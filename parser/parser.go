@@ -122,6 +122,9 @@ func (p *Parser) parseStatement() ast.Statement {
 	}
 }
 
+// Method tries to find infixParseFn s for the next token. If it finds such a function, it calls it, passing
+// in the expression returned by a prefixParseFn as an argument. And it does all this again and
+// again until it encounters a token that has a higher precedence
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefix := p.prefixParseFns[p.curToken.Type]
 
@@ -131,6 +134,18 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	}
 
 	leftExp := prefix()
+
+	for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
+		infix := p.infixParseFns[p.peekToken.Type]
+
+		if infix == nil {
+			return leftExp
+		}
+
+		p.nextToken()
+
+		leftExp = infix(leftExp)
+	}
 
 	return leftExp
 }
@@ -263,4 +278,24 @@ func (p *Parser) curPrecedence() int {
 	}
 
 	return LOWEST
+}
+
+// It uses ast.Expression argument to construct an
+// *ast.InfixExpression node, with left being in the Left field.
+// Then it assigns the precedence of the current token
+// (which is the operator of the infix expression) to the local variable precedence ,
+// before advancing the tokens by calling nextToken and filling the Right field of the node with
+// another call to parseExpression - this time passing in the precedence of the operator token
+func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
+	expession := &ast.InfixExpression{
+		Token:    p.curToken,
+		Operator: p.curToken.Literal,
+		Left:     left,
+	}
+
+	precedence := p.curPrecedence()
+	p.nextToken()
+	expession.Right = p.parseExpression(precedence)
+
+	return expession
 }

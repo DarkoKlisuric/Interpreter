@@ -104,7 +104,7 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 
-func (oe InfixExpression) expressionNode()       {}
+func (oe *InfixExpression) expressionNode()       {}
 func (oe *InfixExpression) TokenLiteral() string { return oe.Token.Literal }
 func (oe *InfixExpression) String() string {
 	var out bytes.Buffer

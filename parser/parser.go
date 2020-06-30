@@ -64,7 +64,7 @@ func New(l *lexer.Lexer) *Parser {
 
 	return p
 }
-
+// Return errors from parser
 func (p *Parser) Errors() []string {
 	return p.errors
 }
@@ -80,6 +80,8 @@ func (p *Parser) nextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
+// The first thing ParseProgram does is construct the root node of the AST, an *ast.Program . It
+// then iterates over every token in the input until it encounters an token.EOF token.
 func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
 	program.Statements = []ast.Statement{}

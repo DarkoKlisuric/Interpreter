@@ -11,7 +11,6 @@ import (
 const PROMPT = ">> "
 
 // REPL stands for “Read Eval Print Loop”
-
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 

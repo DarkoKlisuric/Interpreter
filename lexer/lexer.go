@@ -29,6 +29,7 @@ func New(input string) *Lexer {
 	return l
 }
 
+// Give next character and advance position in the input string
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -39,6 +40,7 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+// Assing next token from input
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -138,6 +140,10 @@ func (l *Lexer) readNumber() string {
 	return l.input[position:l.position]
 }
 
+// peekChar() is really similar to readChar() ,
+// except that it doesn’t increment l.position and l.readPosition
+// “peek” ahead in the input and not move around in it,
+// so know what a call to readChar() would return.
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0

@@ -1,5 +1,7 @@
 package token
 
+// Defining TokenType to be a string beacuse
+// that allows to use many different values as TokenType
 type TokenType string
 
 type Token struct {
@@ -47,6 +49,7 @@ const (
 	RETURN   = "RETURN"
 )
 
+// Keywords in this programming language
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
@@ -57,6 +60,8 @@ var keywords = map[string]TokenType{
 	"return": RETURN,
 }
 
+// Checks the keywords table to see whether the given identifier is in fact a keyword
+// If it is, it returns the keyword’s TokenType constant.
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok

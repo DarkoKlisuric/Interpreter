@@ -5,39 +5,47 @@ import (
 	"github.com/DarkoKlisuric/interpreter/token"
 )
 
+// Every node in AST has to implement the Node interface,
+// meaning it has to provide a TokenLiteral() method that returns
+// the literal value of the token it’s associated with.
 type Node interface {
-	// TokenLiteral() method that returns
-	// the literal value of the token it’s associated with
 	// TokenLiteral() will be used only for debugging and testing
 	TokenLiteral() string
 	String() string
 }
 
+// This type help by guiding the Go compiler and possibly causing
+// it to throw errors when we use a Statement where an Expression
+// should’ve been used, and vice versa
 type Statement interface {
 	Node
 	statementNode()
 }
 
+// This type is same as Statement type
 type Expression interface {
 	Node
 	expressionNode()
 }
 
+// Program node is going to be the root node of every AST parser produces.
 type Program struct {
 	Statements []Statement
 }
 
+// Identifier of token
 type Identifier struct {
 	Token token.Token // the token.IDENT token
 	Value string
 }
 
+// let x = 5;
 type LetStatement struct {
 	Token token.Token // the token.LET token
 	Name  *Identifier // Name hold identifier of the binding
 	Value Expression  // Value for the expression that produces the value
 }
-
+// return 5;
 type ReturnStatement struct {
 	Token       token.Token // the 'return' token
 	ReturnValue Expression

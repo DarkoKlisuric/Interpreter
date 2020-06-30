@@ -45,6 +45,7 @@ type LetStatement struct {
 	Name  *Identifier // Name hold identifier of the binding
 	Value Expression  // Value for the expression that produces the value
 }
+
 // return 5;
 type ReturnStatement struct {
 	Token       token.Token // the 'return' token
@@ -104,7 +105,7 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 
-func (oe *InfixExpression) expressionNode()       {}
+func (oe *InfixExpression) expressionNode()      {}
 func (oe *InfixExpression) TokenLiteral() string { return oe.Token.Literal }
 func (oe *InfixExpression) String() string {
 	var out bytes.Buffer

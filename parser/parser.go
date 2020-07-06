@@ -234,6 +234,7 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 	if err != nil {
 		msg := fmt.Sprintf("could not parse %q as integer", p.curToken.Literal)
 		p.errors = append(p.errors, msg)
+
 		return nil
 	}
 
@@ -257,6 +258,7 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 
 func (p *Parser) noPrefixParseFnError(t token.TokenType) {
 	msg := fmt.Sprintf("no prefix parse function for %s found", t)
+
 	p.errors = append(p.errors, msg)
 }
 
@@ -294,7 +296,9 @@ func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
 	}
 
 	precedence := p.curPrecedence()
+
 	p.nextToken()
+
 	expession.Right = p.parseExpression(precedence)
 
 	return expession

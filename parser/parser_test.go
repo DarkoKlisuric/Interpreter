@@ -497,7 +497,7 @@ func testBooleanLiteral(t *testing.T, exp ast.Expression, value bool) bool {
 	return true
 }
 
-func TestIfExpression(t *testing.T)  {
+func TestIfExpression(t *testing.T) {
 	input := `if (x < y) { x }`
 
 	l := lexer.New(input)
@@ -548,7 +548,7 @@ func TestIfExpression(t *testing.T)  {
 	}
 }
 
-func TestIfElseExpression(t *testing.T)  {
+func TestIfElseExpression(t *testing.T) {
 	input := `if (x < y) { x } else { y }`
 
 	l := lexer.New(input)
@@ -657,8 +657,8 @@ func TestFunctionLiteralParsing(t *testing.T) {
 }
 
 func TestFunctionParameterParsing(t *testing.T) {
-	tests := []struct{
-		input string
+	tests := []struct {
+		input          string
 		expectedParams []string
 	}{
 		{input: "fn() {};", expectedParams: []string{}},

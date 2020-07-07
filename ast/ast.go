@@ -3,6 +3,7 @@ package ast
 import (
 	"bytes"
 	"github.com/DarkoKlisuric/interpreter/token"
+	"strings"
 )
 
 // Every node in AST has to implement the Node interface,
@@ -79,17 +80,26 @@ type Boolean struct {
 	Token token.Token
 	Value bool
 }
+
 // if (<condition>) <consequence> else <alternative>
 type IfExpression struct {
-	Token token.Token // The 'if' token
-	Condition Expression
+	Token       token.Token // The 'if' token
+	Condition   Expression
 	Consequence *BlockStatement
 	Alternative *BlockStatement
 }
 
+// Logic after if, else, or fn
 type BlockStatement struct {
-	Token token.Token // the { token
+	Token      token.Token // the { token
 	Statements []Statement
+}
+
+// fn <parameters> <block statement>
+type FunctionLiteral struct {
+	Token      token.Token // The 'fn' token
+	Parameters []*Identifier
+	Body       *BlockStatement
 }
 
 // Methods witch implement Statement interface. This types are statements.
@@ -102,7 +112,7 @@ func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 func (es *ExpressionStatement) statementNode()       {}
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
 
-func (bs *BlockStatement) statementNode() {}
+func (bs *BlockStatement) statementNode()       {}
 func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
@@ -113,6 +123,7 @@ func (bs *BlockStatement) String() string {
 
 	return out.String()
 }
+
 // end of methods from statement interface
 
 // Methods witch implement Expression interface. This types are expressions.
@@ -155,7 +166,7 @@ func (b *Boolean) expressionNode()      {}
 func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string       { return b.Token.Literal }
 
-func (ie *IfExpression) expressionNode() {}
+func (ie *IfExpression) expressionNode()      {}
 func (ie *IfExpression) TokenLiteral() string { return ie.Token.Literal }
 func (ie *IfExpression) String() string {
 	var out bytes.Buffer
@@ -169,6 +180,26 @@ func (ie *IfExpression) String() string {
 		out.WriteString("else ")
 		out.WriteString(ie.Alternative.String())
 	}
+
+	return out.String()
+}
+
+func (fl *FunctionLiteral) expressionNode() {}
+func (fl *FunctionLiteral) TokenLiteral() string { return fl.Token.Literal }
+func (fl *FunctionLiteral) String() string {
+	var out bytes.Buffer
+
+	var params []string
+
+	for _, p := range fl.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString(fl.TokenLiteral())
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") ")
+	out.WriteString(fl.Body.String())
 
 	return out.String()
 }

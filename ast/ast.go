@@ -87,10 +87,12 @@ type IfExpression struct {
 	Alternative *BlockStatement
 }
 
-func (i *Identifier) expressionNode()      {}
-func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
-func (i *Identifier) String() string       { return i.Value }
+type BlockStatement struct {
+	Token token.Token // the { token
+	Statements []Statement
+}
 
+// Methods witch implement Statement interface. This types are statements.
 func (ls *LetStatement) statementNode()       {}
 func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal }
 
@@ -99,6 +101,24 @@ func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 
 func (es *ExpressionStatement) statementNode()       {}
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
+func (bs *BlockStatement) statementNode() {}
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer
+
+	for _, s := range bs.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
+}
+// end of methods from statement interface
+
+// Methods witch implement Expression interface. This types are expressions.
+func (i *Identifier) expressionNode()      {}
+func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+func (i *Identifier) String() string       { return i.Value }
 
 func (il *IntegerLiteral) expressionNode()      {}
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
@@ -152,6 +172,7 @@ func (ie *IfExpression) String() string {
 
 	return out.String()
 }
+// end of methods from Expression interface
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {

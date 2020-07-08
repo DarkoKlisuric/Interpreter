@@ -101,6 +101,12 @@ type FunctionLiteral struct {
 	Parameters []*Identifier
 	Body       *BlockStatement
 }
+// <expression>(<comma separated expressions>) - add(2, 3)
+type CallExpression struct {
+	Token     token.Token // The '(' token
+	Function  Expression // Identifier or FunctionLiteral
+	Arguments []Expression // 2, 3 ...
+}
 
 // Methods witch implement Statement interface. This types are statements.
 func (ls *LetStatement) statementNode()       {}
@@ -204,6 +210,24 @@ func (fl *FunctionLiteral) String() string {
 	return out.String()
 }
 
+func (ce *CallExpression) expressionNode() {}
+func (ce *CallExpression) TokenLiteral() string { return ce.Token.Literal }
+func (ce *CallExpression) String() string {
+	var out bytes.Buffer
+
+	var args []string
+
+	for _, a := range ce.Arguments {
+		args = append(args, a.String())
+	}
+
+	out.WriteString(ce.Function.String())
+	out.WriteString("(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(")")
+
+	return out.String()
+}
 // end of methods from Expression interface
 
 func (p *Program) TokenLiteral() string {

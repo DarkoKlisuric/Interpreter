@@ -189,7 +189,7 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 
 	// Skipping the expressions until encounter semicolon
 	stmt.ReturnValue = p.parseExpression(LOWEST)
-	
+
 	for !p.curTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}

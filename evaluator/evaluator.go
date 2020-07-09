@@ -6,9 +6,11 @@ import (
 )
 
 var (
+	Null = &object.Null{}
 	True = &object.Boolean{Value: true}
 	False = &object.Boolean{Value: false}
 )
+
 
 // should always start at the top of the tree, receiving an *ast.Program,
 // and then traverse every node in it
@@ -49,3 +51,4 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 
 	return False
 }
+

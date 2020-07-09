@@ -10,54 +10,54 @@ type Token struct {
 }
 
 const (
-	ILLEGAL = "ILLEGAL" // signifies a token/character we don’t know about
-	EOF     = "EOF"     // stands for “end of file”
+	Illegal = "ILLEGAL" // signifies a token/character we don’t know about
+	Eof     = "EOF"     // stands for “end of file”
 
 	// Identifiers + literals
-	IDENT = "IDENT" // add, foo-bar, x, y, ...
-	INT   = "INT"   // 1234123
+	Ident = "IDENT" // add, foo-bar, x, y, ...
+	Int   = "INT"   // 1234123
 
 	//Operators
-	ASSIGN   = "="
-	PLUS     = "+"
-	MINUS    = "-"
-	BANG     = "!"
-	ASTERISK = "*"
-	SLASH    = "/"
+	Assign   = "="
+	Plus     = "+"
+	Minus    = "-"
+	Bang    = "!"
+	Asterisk = "*"
+	Slash    = "/"
 
-	LT = "<"
-	GT = ">"
+	Lt = "<"
+	Gt = ">"
 
-	LPAREN = "("
-	RPAREN = ")"
-	LBRACE = "{"
-	RBRACE = "}"
+	LParen = "("
+	RParen = ")"
+	LBrace = "{"
+	RBrace = "}"
 
-	COMMA     = ","
-	SEMICOLON = ";"
+	Comma     = ","
+	Semicolon = ";"
 
-	EQ     = "=="
-	NOT_EQ = "!="
+	Eq     = "=="
+	NotEq = "!="
 
 	// Keywords
-	FUNCTION = "FUNCTION"
-	LET      = "LET"
-	TRUE     = "TRUE"
-	FALSE    = "FALSE"
-	IF       = "IF"
-	ELSE     = "ELSE"
-	RETURN   = "RETURN"
+	Function = "FUNCTION"
+	Let      = "LET"
+	True     = "TRUE"
+	False    = "FALSE"
+	If       = "IF"
+	Else     = "ELSE"
+	Return   = "RETURN"
 )
 
 // Keywords in this programming language
 var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
-	"true":   TRUE,
-	"false":  FALSE,
-	"if":     IF,
-	"else":   ELSE,
-	"return": RETURN,
+	"fn":     Function,
+	"let":    Let,
+	"true":   True,
+	"false":  False,
+	"if":     If,
+	"else":   Else,
+	"return": Return,
 }
 
 // Checks the keywords table to see whether the given identifier is in fact a keyword
@@ -66,5 +66,5 @@ func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
-	return IDENT
+	return Ident
 }

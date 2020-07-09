@@ -43,5 +43,5 @@ func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
 		return false
 	}
 
-	return  true
+	return true
 }

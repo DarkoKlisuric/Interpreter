@@ -5,6 +5,11 @@ import (
 	"github.com/DarkoKlisuric/interpreter/object"
 )
 
+var (
+	True = &object.Boolean{Value: true}
+	False = &object.Boolean{Value: false}
+)
+
 // should always start at the top of the tree, receiving an *ast.Program,
 // and then traverse every node in it
 func Eval(node ast.Node) object.Object {
@@ -18,7 +23,8 @@ func Eval(node ast.Node) object.Object {
 	case *ast.IntegerLiteral:
 		return &object.Integer{Value: node.Value}
 	case *ast.Boolean:
-		return &object.Boolean{Value: node.Value}
+		// No need for creating a new object.Boolean every time when encounter a true or false
+		return nativeBoolToBooleanObject(node.Value)
 	}
 
 	return nil
@@ -34,4 +40,12 @@ func evalStatements(stmts []ast.Statement) object.Object {
 	}
 
 	return result
+}
+
+func nativeBoolToBooleanObject(input bool) *object.Boolean {
+	if input {
+		return True
+	}
+
+	return False
 }

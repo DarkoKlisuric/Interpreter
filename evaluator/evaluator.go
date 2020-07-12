@@ -6,11 +6,10 @@ import (
 )
 
 var (
-	Null = &object.Null{}
-	True = &object.Boolean{Value: true}
+	Null  = &object.Null{}
+	True  = &object.Boolean{Value: true}
 	False = &object.Boolean{Value: false}
 )
-
 
 // should always start at the top of the tree, receiving an *ast.Program,
 // and then traverse every node in it
@@ -27,6 +26,9 @@ func Eval(node ast.Node) object.Object {
 	case *ast.Boolean:
 		// No need for creating a new object.Boolean every time when encounter a true or false
 		return nativeBoolToBooleanObject(node.Value)
+	case *ast.PrefixExpression:
+		right := Eval(node.Right)
+		return evalPrefixExpression(node.Operator, right)
 	}
 
 	return nil
@@ -52,3 +54,24 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 	return False
 }
 
+func evalPrefixExpression(operator string, right object.Object) object.Object {
+	switch operator {
+	case "!":
+		return evalBangOperatorExpression(right)
+	default:
+		return Null
+	}
+}
+
+func evalBangOperatorExpression(right object.Object) object.Object {
+	switch right {
+	case True:
+		return False
+	case False:
+		return True
+	case Null:
+		return True
+	default:
+		return False
+		}
+}

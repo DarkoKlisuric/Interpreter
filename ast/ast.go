@@ -101,10 +101,11 @@ type FunctionLiteral struct {
 	Parameters []*Identifier
 	Body       *BlockStatement
 }
+
 // <expression>(<comma separated expressions>) - add(2, 3)
 type CallExpression struct {
-	Token     token.Token // The '(' token
-	Function  Expression // Identifier or FunctionLiteral
+	Token     token.Token  // The '(' token
+	Function  Expression   // Identifier or FunctionLiteral
 	Arguments []Expression // 2, 3 ...
 }
 
@@ -210,7 +211,7 @@ func (fl *FunctionLiteral) String() string {
 	return out.String()
 }
 
-func (ce *CallExpression) expressionNode() {}
+func (ce *CallExpression) expressionNode()      {}
 func (ce *CallExpression) TokenLiteral() string { return ce.Token.Literal }
 func (ce *CallExpression) String() string {
 	var out bytes.Buffer
@@ -228,6 +229,7 @@ func (ce *CallExpression) String() string {
 
 	return out.String()
 }
+
 // end of methods from Expression interface
 
 func (p *Program) TokenLiteral() string {

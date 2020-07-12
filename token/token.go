@@ -21,7 +21,7 @@ const (
 	Assign   = "="
 	Plus     = "+"
 	Minus    = "-"
-	Bang    = "!"
+	Bang     = "!"
 	Asterisk = "*"
 	Slash    = "/"
 
@@ -36,7 +36,7 @@ const (
 	Comma     = ","
 	Semicolon = ";"
 
-	Eq     = "=="
+	Eq    = "=="
 	NotEq = "!="
 
 	// Keywords

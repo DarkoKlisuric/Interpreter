@@ -17,7 +17,7 @@ func Eval(node ast.Node) object.Object {
 	switch node := node.(type) {
 	// Statements
 	case *ast.Program:
-		return evalStatements(node.Statements)
+		return evalProgram(node.Statements)
 	case *ast.ExpressionStatement:
 		return Eval(node.Expression)
 	// Expressions
@@ -52,6 +52,20 @@ func evalStatements(stmts []ast.Statement) object.Object {
 
 	for _, statement := range stmts {
 		result = Eval(statement)
+
+		if returnValue, ok := result.(*object.ReturnValue); ok {
+			return returnValue.Value
+		}
+	}
+
+	return result
+}
+
+func evalProgram(program *ast.Program) object.Object {
+	var result object.Object
+
+	for _, stmt := range program.Statements {
+		result = Eval(stmt)
 
 		if returnValue, ok := result.(*object.ReturnValue); ok {
 			return returnValue.Value

@@ -5,10 +5,11 @@ import "fmt"
 type ObjectType string
 
 const (
-	IntegerObj = "INTEGER"
-	BooleanObj = "BOOLEAN"
-	NullObj    = "NULL"
+	IntegerObj     = "INTEGER"
+	BooleanObj     = "BOOLEAN"
+	NullObj        = "NULL"
 	ReturnValueObj = "RETURN_VALUE"
+	ErrorObj       = "ERROR"
 )
 
 // represent every value which is encounter when evaluating source code as an Object
@@ -29,6 +30,10 @@ type ReturnValue struct {
 	Value Object
 }
 
+type Error struct {
+	Message string
+}
+
 type Null struct{}
 
 func (i *Integer) Type() ObjectType { return IntegerObj }
@@ -41,5 +46,7 @@ func (n *Null) Type() ObjectType { return NullObj }
 func (n *Null) Inspect() string  { return "null" }
 
 func (rv *ReturnValue) Type() ObjectType { return ReturnValueObj }
-func (rv *ReturnValue) Inspect() string { return rv.Value.Inspect() }
+func (rv *ReturnValue) Inspect() string  { return rv.Value.Inspect() }
 
+func (e *Error) Type() ObjectType { return ErrorObj }
+func (e *Error) Inspect() string  { return "ERROR: " + e.Message }

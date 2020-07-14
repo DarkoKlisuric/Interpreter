@@ -71,7 +71,7 @@ func (f *Function) Inspect() string {
 	for _, p := range f.Parameters {
 		params = append(params, p.String())
 	}
-	
+
 	out.WriteString("fn")
 	out.WriteString("(")
 	out.WriteString(strings.Join(params, ", "))
